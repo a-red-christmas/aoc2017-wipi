@@ -1,4 +1,3 @@
-open System
 open System.Text
 
 [<Literal>]
@@ -16,3 +15,10 @@ let sum =
     |> Seq.sum
 
 printfn "%A" sum
+
+let halfLen = Input.Length / 2
+let halfwaySum =
+    Input.ToCharArray()
+    |> Seq.mapi (fun idx x -> if x = Input.[(idx + halfLen) % Input.Length] then int (string x) else 0)
+    |> Seq.sum
+printfn "%A" halfwaySum
