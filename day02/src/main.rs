@@ -25,7 +25,7 @@ fn replace_if<T: Copy, F>(old: &Option<T>, new_val: &T, predicate: F) -> Option<
     }
 }
 
-fn get_line_value(line: &str) -> i32 {
+fn get_max_delta(line: &str) -> i32 {
     let mut min = None;
     let mut max = None;
     for val in line.split_whitespace() {
@@ -41,10 +41,37 @@ fn get_line_value(line: &str) -> i32 {
     }
 }
 
+fn get_only_divisor_ratio(line: &str) -> i32 {
+    let mut previously_seen = Vec::new();
+    for val in line.split_whitespace() {
+        let val = val.parse::<i32>().unwrap();
+        for seen_val in &previously_seen {
+            if seen_val % val == 0 {
+                return seen_val / val;
+            }
+
+            if val % seen_val == 0 {
+                return val / seen_val;
+            }
+        }
+
+        previously_seen.push(val);
+    }
+
+    return 0;
+}
+
 fn main() {
     let mut checksum = 0;
     for line in INPUT.lines() {
-        checksum += get_line_value(line);
+        checksum += get_max_delta(line);
+    }
+
+    println!("{}", checksum);
+
+    checksum = 0;
+    for line in INPUT.lines() {
+        checksum += get_only_divisor_ratio(line);
     }
 
     println!("{}", checksum);
