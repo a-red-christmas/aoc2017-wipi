@@ -516,8 +516,21 @@ jjo uvk vlpy lpxd irntb uvk ehhsqv fxhvt jjo fpa
 qrwu mgnw hvflf ytspp mco ikvbqg fflvh wts cbbf
 """
 
-let num_invalid =
+let numRepeated =
     Input.Split([|"\r"; "\n"; "\r\n"|], StringSplitOptions.RemoveEmptyEntries)
     |> Seq.map (fun str -> str.Split([|' '|], StringSplitOptions.RemoveEmptyEntries))
     |> Seq.sumBy (fun line -> if line.Length = (line |> Seq.distinct |> Seq.length) then 1 else 0)
-printfn "%A" num_invalid
+printfn "%A" numRepeated
+
+
+let numAnagram =
+    Input.Split([|"\r"; "\n"; "\r\n"|], StringSplitOptions.RemoveEmptyEntries)
+    |> Seq.map (fun str -> str.Split([|' '|], StringSplitOptions.RemoveEmptyEntries))
+    |> Seq.sumBy (fun line ->
+        let uniqueCount =
+            line
+            |> Seq.map (fun s -> String.Join("", s.ToCharArray() |> Seq.sort))
+            |> Seq.distinct
+            |> Seq.length
+        if line.Length = uniqueCount then 1 else 0)
+printfn "%A" numAnagram
