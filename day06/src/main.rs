@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::HashMap;
 
 const INPUT: &'static str = "5	1	10	0	1	7	13	14	3	12	8	10	7	12	0	6";
 
@@ -7,16 +7,17 @@ fn get_registers() -> Vec<u32> {
 }
 
 fn balance_registers() -> u32 {
-    let mut seen: HashSet<Vec<u32>> = HashSet::new();
+    let mut seen: HashMap<Vec<u32>, u32> = HashMap::new();
     let mut registers = get_registers();
     let mut steps = 0;
     println!("{:?}", registers);
     loop {
-        if seen.contains(&registers) {
-            return steps;
+        match seen.get(&registers) {
+            Some(original_step) => return steps - original_step,
+            None => ()
         }
 
-        seen.insert(registers.to_vec());
+        seen.insert(registers.to_vec(), steps);
         steps += 1;
         let mut max = 0;
         let mut idx = 0;
