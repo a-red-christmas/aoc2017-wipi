@@ -1083,6 +1083,22 @@ fn run_till_exit() -> u32 {
     }
 }
 
+fn run_till_exit_weird() -> u32 {
+    let mut tape = get_starting_tape();
+    let mut step: u32 = 0;
+    let mut index: i32 = 0;
+    loop {
+        if index as usize >= tape.len() {
+            return step;
+        }
+        
+        step += 1;
+        let step_delta = tape[index as usize];
+        tape[index as usize] = step_delta + (if step_delta >= 3 { -1 } else { 1 });
+        index += step_delta;
+    }
+}
+
 fn main() {
-    println!("{}", run_till_exit());
+    println!("{}", run_till_exit_weird());
 }
